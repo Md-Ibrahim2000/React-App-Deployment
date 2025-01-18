@@ -3,18 +3,18 @@ pipeline {
 
     environment {
         // Set Docker credentials as environment variables
-        DOCKER_USERNAME = mohamedibrahimm01
-        DOCKER_PASS = Md.Ibrahim@2000
+        DOCKER_USERNAME = 'mohamedibrahimm01'
+        DOCKER_PASS = 'Md.Ibrahim@2000'
     }
 
     stages {
-        stage ('changing the file permission') {
+        stage('changing the file permission') {
             steps {
                 sh 'chmod +x build.sh'
             }
         }
 
-        stage ('executing the file') {
+        stage('executing the file') {
             steps {
                 // Ensure Docker permissions are handled
                 sh 'sudo ./build.sh'  // Use sudo if necessary
