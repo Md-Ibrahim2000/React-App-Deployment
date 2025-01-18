@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        // Set Docker credentials as environment variables
+        DOCKER_USERNAME = mohamedibrahimm01
+        DOCKER_PASS = Md.Ibrahim@2000
+    }
+
     stages {
         stage ('changing the file permission') {
             steps {
@@ -10,8 +16,10 @@ pipeline {
 
         stage ('executing the file') {
             steps {
-                sh './build.sh'
+                // Ensure Docker permissions are handled
+                sh 'sudo ./build.sh'  // Use sudo if necessary
             }
         }
     }
 }
+
