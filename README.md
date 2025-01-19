@@ -1,2 +1,2 @@
-# React-App-Deployment
+# React-Application-Deployment
 Capstone - Project - Zen-Class
