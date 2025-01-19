@@ -1,34 +1,32 @@
-# Base image for the build stage:
-FROM node:16-alpine as build
+#choosing the base image as the build stage:
+FROM node:16-alpine as build 
 
-# Set the working directory for the app:
+#choosing working directory for the application:
 WORKDIR /app
 
-# Copy package files and install dependencies:
-COPY package.json package-lock.json ./
-RUN npm ci
+#copying the package.json file to app directory and installing packages:
+COPY package.json .
+RUN npm install
 
-# Copy the rest of the application source code:
+#copying the rest of application code to the working directory:
 COPY . .
 
-# Build the React app:
-RUN npm run build
+#building the application:
+RUN npm run build 
 
-# Base image for the production stage (Nginx):
+#second stage base image:
 FROM nginx:alpine
 
-# Remove default Nginx static assets:
-RUN rm -rf /usr/share/nginx/html/*
+#setting the working directory for this base image:
+WORKDIR /usr/share/nginx/html/
 
-# Copy the build files from the build stage:
-COPY --from=build /app/build /usr/share/nginx/html
+#copying the first stage code to this stage
+COPY --from=build /app/build .
 
-# Expose port 80 for the container:
+#exposing the application:
 EXPOSE 80
 
-# Add custom Nginx configuration for React SPA:
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Run Nginx to serve the app:
+#Executing the application after creating image:
 CMD ["nginx", "-g", "daemon off;"]
+
 
