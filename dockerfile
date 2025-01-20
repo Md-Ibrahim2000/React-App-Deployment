@@ -1,12 +1,12 @@
 # Base image for the build stage:
-FROM node:16-alpine as build
+FROM node:16.20.0-alpine as build
 
 # Set the working directory for the app:
 WORKDIR /app
 
-# Copy the package.json and install dependencies:
-COPY package.json .
-RUN npm install
+# Copy both package.json and package-lock.json for deterministic installs:
+COPY package.json package-lock.json .
+RUN npm ci
 
 # Copy the rest of the application:
 COPY . .
@@ -15,7 +15,7 @@ COPY . .
 RUN npm run build
 
 # Base image for the production stage (Nginx):
-FROM nginx:alpine
+FROM nginx:1.23.3-alpine
 
 # Set the working directory for Nginx:
 WORKDIR /usr/share/nginx/html/
@@ -28,6 +28,7 @@ EXPOSE 80
 
 # Run Nginx to serve the app:
 CMD ["nginx", "-g", "daemon off;"]
+
 
 
 
