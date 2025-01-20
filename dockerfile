@@ -5,8 +5,8 @@ FROM node:16.20.0-alpine as build
 WORKDIR /app
 
 # Copy both package.json and package-lock.json for deterministic installs:
-COPY package.json package-lock.json .
-RUN npm ci
+COPY package.json package-lock.json ./
+RUN npm install
 
 # Copy the rest of the application:
 COPY . .
