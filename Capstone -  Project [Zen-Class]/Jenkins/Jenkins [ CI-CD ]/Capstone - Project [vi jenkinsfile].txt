@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_USERNAME = 'mohamedibrahimm01'
+        DOCKER_PASS = 'Md.Ibrahim@2000'
+    }
+
+    stages {
+        stage('changing the file permission') {
+            steps {
+                sh 'chmod +x build.sh'
+            }
+        }
+
+        stage('executing the file') {
+            steps {
+                // Pass password to sudo using -S
+                sh 'echo "your_password" | sudo -S ./build.sh'
+            }
+        }
+    }
+}
+
+
